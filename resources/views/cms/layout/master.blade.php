@@ -1,0 +1,5 @@
+@include('cms.layout.head')
+@include('cms.layout.nav')
+@include('cms.layout.side')
+@yield('content')
+@include('cms.layout.footer')
