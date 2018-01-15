@@ -1,5 +1,5 @@
 ﻿# Host: localhost  (Version 5.5.5-10.1.24-MariaDB)
-# Date: 2018-01-13 11:17:50
+# Date: 2018-01-15 03:03:12
 # Generator: MySQL-Front 6.0  (Build 2.12)
 
 
@@ -24,7 +24,7 @@ CREATE TABLE `categories` (
 # Data for table "categories"
 #
 
-INSERT INTO `categories` VALUES (1,'testando','teest',1,'2018-01-06 19:08:51','2018-01-06 19:08:51'),(8,'Sem categoria','tees\t',1,NULL,NULL);
+INSERT INTO `categories` VALUES (1,'Sem titulo','Sem descrição',1,'2018-01-12 03:32:54',NULL);
 
 #
 # Structure for table "messages"
@@ -78,13 +78,13 @@ CREATE TABLE `users` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 #
 # Data for table "users"
 #
 
-INSERT INTO `users` VALUES (1,'Vitor Nogueira Gomes','vitor@test.com','$2y$10$X7qD6Av6C4m84fwFgTeUGeT/hHhrdJ9H9QPLtRCIbIgDIMRab4HYi','1MsPvdZZjwygwGCFKE68PP75Zcv519Fxk25wrMLdhxsv70jrmGqrQf5bw8yk','2018-01-06 18:26:31','2018-01-06 18:26:31'),(10,'Desconhecido','admin@studio091.com','$2y$10$SpWnMVr8PrSVBLVIA1iotewdyJ9YCurTGX8rVkX2p24ojoj1l4pja',NULL,'2018-01-11 22:33:08','2018-01-11 22:33:08');
+INSERT INTO `users` VALUES (1,'Vitor Nogueira Gomes','vitor@test.com','$2y$10$X7qD6Av6C4m84fwFgTeUGeT/hHhrdJ9H9QPLtRCIbIgDIMRab4HYi','1MsPvdZZjwygwGCFKE68PP75Zcv519Fxk25wrMLdhxsv70jrmGqrQf5bw8yk','2018-01-06 18:26:31','2018-01-06 18:26:31'),(10,'Desconhecido','admin@studio091.com','$2y$10$SpWnMVr8PrSVBLVIA1iotewdyJ9YCurTGX8rVkX2p24ojoj1l4pja',NULL,'2018-01-11 22:33:08','2018-01-11 22:33:08'),(11,'batatas','batatas@studio091.com','$2y$10$UpjvwpIfCTSpXmzSGrjUXOKnlmCveQAjgRqsjFmGJSZr9m03qfaxO',NULL,'2018-01-13 14:17:35','2018-01-13 14:17:35');
 
 #
 # Structure for table "sectors"
@@ -124,7 +124,7 @@ CREATE TABLE `profiles` (
   PRIMARY KEY (`id`),
   KEY `profiles_user_id_foreign` (`user_id`),
   CONSTRAINT `profiles_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 #
 # Data for table "profiles"
@@ -149,13 +149,12 @@ CREATE TABLE `posts` (
   PRIMARY KEY (`id`),
   KEY `posts_user_id_foreign` (`user_id`),
   CONSTRAINT `posts_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 #
 # Data for table "posts"
 #
 
-INSERT INTO `posts` VALUES (1,'teeste','teeste','ba',1,1,'2018-01-06 20:51:19','2018-01-06 20:52:00');
 
 #
 # Structure for table "category_post"
@@ -173,13 +172,12 @@ CREATE TABLE `category_post` (
   KEY `category_post_category_id_foreign` (`category_id`),
   CONSTRAINT `category_post_category_id_foreign` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`) ON DELETE CASCADE,
   CONSTRAINT `category_post_post_id_foreign` FOREIGN KEY (`post_id`) REFERENCES `posts` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 #
 # Data for table "category_post"
 #
 
-INSERT INTO `category_post` VALUES (3,1,8,'2018-01-06 20:52:00','2018-01-06 20:52:00');
 
 #
 # Structure for table "portfolios"
@@ -202,7 +200,7 @@ CREATE TABLE `portfolios` (
 # Data for table "portfolios"
 #
 
-INSERT INTO `portfolios` VALUES (1,'ooooi','ooi',1,'2018-01-12 03:32:54','2018-01-12 03:32:54');
+INSERT INTO `portfolios` VALUES (1,'Sem titulo','Sem descrição',1,'2018-01-12 03:32:54','2018-01-15 01:52:39');
 
 #
 # Structure for table "albums"
@@ -225,7 +223,7 @@ CREATE TABLE `albums` (
 # Data for table "albums"
 #
 
-INSERT INTO `albums` VALUES (1,1,'carra','ooi','2018-01-07 00:16:00','2018-01-07 01:37:06');
+INSERT INTO `albums` VALUES (1,1,'Fotos apagadas ','Sem titulo','2018-01-12 03:32:54',NULL);
 
 #
 # Structure for table "photos"
@@ -245,13 +243,12 @@ CREATE TABLE `photos` (
   KEY `photos_album_id_foreign` (`album_id`),
   CONSTRAINT `photos_album_id_foreign` FOREIGN KEY (`album_id`) REFERENCES `albums` (`id`) ON DELETE CASCADE,
   CONSTRAINT `photos_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 #
 # Data for table "photos"
 #
 
-INSERT INTO `photos` VALUES (1,'oi','D0MUkHogjSYN.jpg',1,1,'2018-01-07 02:34:10','2018-01-07 02:34:10'),(2,'oi','AEtjyaA5JxmB.jpg',1,1,'2018-01-07 02:34:10','2018-01-07 02:34:10'),(3,'oi','rwDCMw1GSRyI.jpg',1,1,'2018-01-07 02:34:11','2018-01-07 02:34:11');
 
 #
 # Structure for table "works"
@@ -264,19 +261,38 @@ CREATE TABLE `works` (
   `text` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `image` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `visible` int(11) NOT NULL DEFAULT '0',
-  `user_id` int(10) unsigned NOT NULL,
   `portfolio_id` int(10) unsigned NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `works_user_id_foreign` (`user_id`),
   KEY `works_portfolio_id_foreign` (`portfolio_id`),
-  CONSTRAINT `works_portfolio_id_foreign` FOREIGN KEY (`portfolio_id`) REFERENCES `portfolios` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `works_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  CONSTRAINT `works_portfolio_id_foreign` FOREIGN KEY (`portfolio_id`) REFERENCES `portfolios` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 #
 # Data for table "works"
 #
 
-INSERT INTO `works` VALUES (1,'Desenvolvimento de sofware','oi','e',0,1,1,'2018-01-12 04:11:05','2018-01-12 04:11:05'),(2,'Desenvolvimento de sofware','oi','e',0,1,1,'2018-01-12 04:11:48','2018-01-12 04:11:48'),(3,'Desenvolvimento de sofware','oi','e',0,1,1,'2018-01-12 04:13:58','2018-01-12 04:13:58'),(4,'Desenvolvimento de sofware','oi','e',0,1,1,'2018-01-12 04:15:26','2018-01-12 04:15:26'),(5,'Desenvolvimento de sofware','oi','e',0,1,1,'2018-01-12 04:15:48','2018-01-12 04:15:48'),(6,'Desenvolvimento de sofware','oi','e',0,1,1,'2018-01-12 04:17:56','2018-01-12 04:17:56'),(7,'Desenvolvimento de sofware','teeext','e',0,1,1,'2018-01-13 12:58:52','2018-01-13 12:58:52');
+
+#
+# Structure for table "user_work"
+#
+
+DROP TABLE IF EXISTS `user_work`;
+CREATE TABLE `user_work` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) unsigned NOT NULL,
+  `work_id` int(10) unsigned NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_work_work_id_foreign` (`work_id`),
+  KEY `user_work_user_id_foreign` (`user_id`),
+  CONSTRAINT `user_work_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `user_work_work_id_foreign` FOREIGN KEY (`work_id`) REFERENCES `works` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+#
+# Data for table "user_work"
+#
+
