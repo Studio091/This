@@ -21,8 +21,9 @@ class Work extends Model
 	public function createWork(Work $work, $name, $user){
 		$work->image = $name[0];
 		$work->save();
-		$work->all()->last();
+		$post = $work->all()->last();
 		$work->relation($work, $user);
+		return $post;
 	}
 	public function updateWork(Work $work, $name, $user, $id){
 		$aux = Work::find($id);
@@ -33,8 +34,9 @@ class Work extends Model
 		$aux->visible = $work->test($work->visible, $aux->visible);
 		$aux->portfolio_id = $work->test($work->portfolio_id, $aux->portfolio_id);
 		
-		$aux->save();
+		$post = $aux->save();
 		$aux->relation($aux, $user);
+		return $post;
 	}
 	
 	public function relation(Work $work, $user){

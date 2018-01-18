@@ -28,6 +28,7 @@ Route::post('/cms/album/photo/{id}', 'AlbumController@createPhoto');
 Route::get('/cms/album/photo/delete/{id}', 'AlbumController@deletePhoto');
 
 Route::get('/cms/publish', 'PostController@indexPost')->name('publish');
+Route::get('/cms/post', 'PostController@Post');
 Route::post('/cms/publish', 'PostController@createPost');
 Route::get('/cms/publish/{id}', 'PostController@editPost')->name('editpublish');
 Route::post('/cms/publish/{id}', 'PostController@updatePost');

@@ -30,6 +30,7 @@ class Post extends Model
 		$post->save();
 		$post->all()->last();
 		$post->relation($post, $category);
+		return $post;
 		
 	}
 	public function updatePost(Post $post, $name, $category, $id){
@@ -42,6 +43,7 @@ class Post extends Model
 		
 		$aux->save();
 		$aux->relation($aux, $category);
+		return $post;
 	}
 	public function deletePost($id){
 		$post = Post::find($id);

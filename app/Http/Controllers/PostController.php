@@ -16,50 +16,58 @@ class PostController extends Controller
     }
 
 	public function indexCategory(){
-		$category = Category::all();
+		$category = Category::latest()->get();
 		$option = true;
 		return view('cms.category.index', compact('category','option'));
 	}
 	public function indexPost(){
-		$post = Post::all();
-		$category = Category::all();
+		$post = Post::latest()->get();
+		$category = Category::latest()->get();
 		$option = true;
 		return view('cms.category.post.index', compact('post','category', 'option'));
 	}
+	public function Post(){
+		$post = Post::latest()->get();
+		$category = Category::latest()->get();
+		$option = true;
+		return view('cms.category.post.create', compact('post','category', 'option'));
+	}
 	public function editPost($id){
 		//the test is here 
-		try{
+		
 			$edit = Post::find($id);
-			if(is_null($edit))return Redirect::to('/cms/publish/');
+			if(is_null($edit)){
+				session()->flash('warning', 'Erro 404');
+				return Redirect::to('/cms/publish/');
+			}
 			$post = Post::all();
 			$category = Category::all();
 			$option = false;
-			return view('cms.category.post.index', compact('post','category', 'option', 'edit'));
-		}catch(\Exception $e){
-			return Redirect::to('/cms/publish/')->with('msg', ' Sorry something went worng. Please try again.');
-		}	
+			return view('cms.category.post.create', compact('post','category', 'option', 'edit'));
+		
 		
 	}
 	public function editCategory($id){
-		try{
+		
 			$edit = Category::find($id);
-			if(is_null($edit))return Redirect::to('/cms/category/');
+			if(is_null($edit)){
+				session()->flash('warning', 'Erro 404');
+				return Redirect::to('/cms/category/');
+			}
 			$category = Category::all();
 			$option = false;
 			return view('cms.category.index', compact('category', 'edit', 'option'));
-		}catch(\Exception $e){
-			return Redirect::to('/cms/category/')->with('msg', ' Sorry something went worng. Please try again.');
-		}
-			
 	
 	}
 	public function createCategory(Request $request){
 		try{
 			$category = new Category;
 			$category->createCategory(new Category(request(['title', 'text'])));
+			$request->session()->flash('success', 'Record successfully added!');
 			return Redirect::to('/cms/category');
 		}catch(\Exception $e){
-			return Redirect::to('/cms/category')->with('msg', ' Sorry something went worng. Please try again.');
+			$request->session()->flash('warning', 'Record not added!');
+			return Redirect::to('/cms/category');
 		}
 	
 	}
@@ -67,11 +75,17 @@ class PostController extends Controller
 		try{
 			$post = new Post; 
 			$photo = new Photo;
-			$name[0] = $photo->photo($request->file('image'), 'post');
-			$post->createPost(new Post(request(['text', 'title', 'visible'])), $name[0], $request->category);
+			if(!is_null($request->file('image'))){
+				$name[0] = $photo->photo($request->file('image'), 'post');
+			}else{
+				$name[0] = "default.jpg";
+			}
+			$post = $post->createPost(new Post(request(['text', 'title', 'visible'])), $name[0], $request->category);
+			$request->session()->flash('success', 'Post successfully added! Read here "<a href="'.$post->id.'" class="alert-link">'.$post->title.'</a>"');
 			return Redirect::to('/cms/publish');
 		}catch(\Exception $e){
-			return Redirect::to('/cms/publish')->with('msg', ' Sorry something went worng. Please try again.');
+			$request->session()->flash('warning', 'Record not added!');
+			return Redirect::to('/cms/publish');
 		}
 			
 		
@@ -80,9 +94,11 @@ class PostController extends Controller
 		try{
 			$category = new Category;
 			$category->updateCategory(new Category(request(['title','text'])), $id);
+			$request->session()->flash('success', 'Record successfully updated!');
 			return Redirect::to('/cms/category/'.$id);
 		}catch(\Exception $e){
-			return Redirect::to('/cms/category/'.$id)->with('msg', ' Sorry something went worng. Please try again.');
+			$request->session()->flash('warning', 'Record not added! ');
+			return Redirect::to('/cms/category/'.$id);
 		}
 			
 		
@@ -92,11 +108,17 @@ class PostController extends Controller
 		try{
 			$post = new Post; 
 			$photo = new Photo;
-			$name[0] = $photo->photo($request->file('image'), 'post');
+			if(!is_null($request->file('image'))){
+				$name[0] = $photo->photo($request->file('image'), 'post');
+			}else{
+				$name[0] = "default.jpg";
+			}
 			$post->updatePost(new Post(request(['text', 'title', 'visible'])), $name[0], $request->category, $id);
+			$request->session()->flash('success', 'Post successfully added! Read here "<a href="'.$post->id.'" class="alert-link">'.$post->title.'</a>"');
 			return Redirect::to('/cms/publish'.$id);
 		}catch(\Exception $e){
-			return Redirect::to('/cms/publish/'.$id)->with('msg', ' Sorry something went worng. Please try again.');
+			$request->session()->flash('warning', 'Record not added! ');
+			return Redirect::to('/cms/publish/'.$id);
 		}
 		
 		
@@ -105,9 +127,11 @@ class PostController extends Controller
 		try{
 			$category = new Category;
 			$category->deleteCategory($id);
+			session()->flash('success', 'Category deleted successfully');
 			return Redirect::to('/cms/category');
 		}catch(\Exception $e){
-			return Redirect::to('/cms/category')->with('msg', ' Sorry something went worng. Please try again.');
+			$request->session()->flash('warning', 'Record not added! erro');
+			return Redirect::to('/cms/category');
 		}
 			
 		
@@ -116,9 +140,11 @@ class PostController extends Controller
 		try{
 			$post = new Post;
 			$post->deletePost($id);
+			session()->flash('success', 'Post deleted successfully');
 			return Redirect::to('/cms/publish');
 		}catch(\Exception $e){
-			return Redirect::to('/cms/publish')->with('msg', ' Sorry something went worng. Please try again.');
+			$request->session()->flash('warning', 'Record not added! erro');
+			return Redirect::to('/cms/publish');
 		}
 			
 	}
